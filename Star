@@ -1,0 +1,105 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+int init_tab(){
+
+    int size=0;
+    while(size<10||size>40){
+    printf("Size of the star?\n");
+    scanf("%d",&size);
+    if(size<10||size>40)
+        printf("Size must be between 10 and 40\n");
+    }
+    return size;
+}
+void affichage_tab(int *tab, int size){
+    for(int i=0;i<size;i++){
+        if(tab[i]==0)
+        printf(" ");
+        else
+        printf("*");
+    }
+    printf("\n");
+    for(int j=0;j<size;j++){
+        tab[j]=0;
+    }
+}
+void stars_place(){
+    int taille=init_tab(),
+        center=taille/2,
+        tab[taille];
+    
+    for(int i=0; i<taille; i++){
+        tab[i]=0;
+    }
+    
+    tab[center]=1;
+    
+    
+    //premiere etape
+    int i=0,droite=0,gauche=0;
+    affichage_tab(tab,taille);
+    while(i!=(taille/6)){
+        i++;
+        droite=center+i;
+        gauche=center-i;
+        tab[droite]=1;
+        tab[gauche]=1;
+        affichage_tab(tab,taille);
+    }  i=0;
+    //deuxieme etape
+    //on garde en memoire les 2 positions pour etape 5
+    int droite5=droite;
+    int gauche5=gauche;
+    for(int i=0;i<taille;i++){
+        if(i<gauche)
+        tab[i]=1;
+        if(i>droite)
+        tab[i]=1;
+    }
+    affichage_tab(tab,taille);
+    //troisieme etape
+    droite=taille-1;
+    gauche=1;
+    tab[droite]=1;
+    tab[gauche]=1;
+    affichage_tab(tab,taille);
+    while(i!=(taille/6)){
+        i++;
+        droite--;
+        gauche++;
+        tab[droite]=1;
+        tab[gauche]=1;
+        affichage_tab(tab,taille);
+    }i=0;
+    //quatrieme etape
+    while(i!=(taille/6)){
+        droite++;
+        gauche--;
+        tab[droite]=1;
+        tab[gauche]=1;
+        affichage_tab(tab,taille);
+        i++;
+    }i=0;
+    //cinquieme etape
+    for(int i=0;i<taille;i++){
+        if(i<gauche5)
+        tab[i]=1;
+        if(i>droite5)
+        tab[i]=1;
+    }
+    affichage_tab(tab,taille);
+    while(i!=(taille/6)){
+        droite5--;
+        gauche5++;
+        tab[droite5]=1;
+        tab[gauche5]=1;
+        affichage_tab(tab,taille);
+        i++;
+    }
+}
+
+int main(){
+    
+    stars_place();
+}
